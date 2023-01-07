@@ -25,7 +25,7 @@ const Menu = (props: Props) => {
           </div>
           <div className='text-purple-light'><HiBell size={30} /></div>
           <div>
-            <FiMenu size={35}/>
+            <button><FiMenu size={35}/></button>
           </div>
         </div>
       </div>
