@@ -4,9 +4,23 @@ import { HiBell } from "react-icons/hi";
 import { FiMenu } from "react-icons/fi";
 import InputSearch from "../input/inputSearch";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/router";
+
 type Props = {};
 
 const Menu = (props: Props) => {
+  const { logout } = useAuth();
+  const router = useRouter();
+  const userlogout = async () => {
+    try {
+      await logout();
+      router.push("/login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="drop-shadow-lg bg-white">
       <div
@@ -36,8 +50,14 @@ const Menu = (props: Props) => {
               </DropdownMenu.Trigger>
 
               <DropdownMenu.Content className="content">
-                <DropdownMenu.Item className="item">In-patient</DropdownMenu.Item>
-                <DropdownMenu.Item className="item">Logout</DropdownMenu.Item>
+                <DropdownMenu.Item className="item">
+                  In-patient
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                   onClick={userlogout}
+                >
+                  Logout
+                </DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Root>
           </div>
