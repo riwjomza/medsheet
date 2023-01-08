@@ -1,106 +1,250 @@
-import React, { useState } from 'react'
-import { BiUserPlus } from 'react-icons/bi'
-import { RiArrowGoBackLine } from 'react-icons/ri'
+import React, { useState, useEffect } from "react";
+import { BiUserPlus } from "react-icons/bi";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { AiFillPrinter } from "react-icons/ai";
+import { GiHealthNormal } from "react-icons/gi";
+import { mockDataInternalUserList } from "../../../contrasts/internalUserList";
+import Image from "next/image";
+import ModalPatientDetail from "../../../components/modal/modalPatientDetail";
+import Datepicker from "../../../components/input/datePicker";
+import TimePicker from "../../../components/input/timePicker";
+import { useAuth } from "../../../context/AuthContext";
+
+import { db } from "../../../firebase";
+
+import {
+  collection,
+  QueryDocumentSnapshot,
+  DocumentData,
+  query,
+  where,
+  limit,
+  getDocs,
+} from "@firebase/firestore";
 
 type Props = {
-  setShowFormPatient: any
-}
+  setShowFormPatient: any;
+};
 
-function AddPatientForm({ setShowFormPatient }: Props) {
-  const [dataForm, setDataForm] = useState({
-    nameTH: "",
-    nameEN: "",
-    age: "",
-    weigh: "",
-    HN: "",
-    AN: "",
-    bed: "",
-    history: "",
-    diagnosis: "",
-  })
+const Table = ({ setShowFormPatient }: Props) => {
+  const [showModal, setShowModal] = useState(false);
+  const [onShowDatePicker, setOnShowDatePicker] = useState(false);
+  const [onShowTimePicker, setOnShowTimePicker] = useState(false);
+
+  // For db
+  const patientsCollection = collection(db, "patients");
+
+  // const [patients, setPatients] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+  const [patients, setPatients] = useState<DocumentData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getPatients = async () => {
+    // construct a query to get up to 10 undone todos
+    const todosQuery = query(patientsCollection);
+    // get the todos
+    const querySnapshot = await getDocs(todosQuery);
+
+    // map through todos adding them to an array
+    const result: DocumentData[] = [];
+    querySnapshot.forEach((snapshot) => {
+      result.push(snapshot.data());
+    });
+    // set it to state
+    setPatients(result);
+  };
+
+  useEffect(() => {
+    // get the todos
+    getPatients();
+    // reset loading
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  patients.forEach((patient) => {
+    console.log(patient);
+    const date = new Date(patient.date.seconds).toISOString().slice(0, 10);
+    const time = new Date(patient.date.seconds).toISOString().slice(11, 19);
+
+    patient.humanDate = date;
+    patient.humanTime = time;
+  });
+
   const styled = {
-    input: `
-    border rounded-md h-8 drop-shadow-sm p-1
-    `,
     button: `
-    bg-purple    
-    rounded-md
-    px-3
-    py-1
-    text-white
-    flex gap-2 items-center justify-between
-  `,
-  }
-  const onChangeDataForm = (e: any) => {
-    if (e) {
-      setDataForm({
-        ...dataForm,
-        [e.target.name]: e.target.value
-      })
+      bg-purple    
+      rounded-md
+      px-3
+      py-1
+      text-white
+      flex gap-2 items-center justify-between
+    `,
+    th: `
+      border border-purple
+      h-24
+      bg-purple-supperLight
+      text-purple
+      p-2
+    `,
+    td: `
+      border border-purple
+      h-full
+      p-3
+    `,
+    card: `
+      bg-purple-supperLight py-2 px-3 rounded-md
+      flex gap-3 items-center justify-between
+      text-xs
+    `,
+  };
+
+  const toggleShowPicker = (type: string) => {
+    switch (type) {
+      case "OPEN_TIME":
+        setOnShowTimePicker(!onShowTimePicker);
+        setOnShowDatePicker(false);
+        break;
+      case "OPEN_DATE":
+        setOnShowTimePicker(false);
+        setOnShowDatePicker(!onShowDatePicker);
+        break;
+
+      default:
+        break;
     }
-    console.log(dataForm)
-  }
+  };
   return (
-    <div className='animate-fade-in-down'>
-      <div className='absolute top-10 left-6 z-30 text-white cursor-pointer' onClick={() => setShowFormPatient(false)}>
-        <RiArrowGoBackLine size={40} />
-      </div>
-      <div className='text-3xl font-bold mb-10'>
-        <div className='text-purple'>รายชื่อผู้ป่วยใน</div>
-      </div>
+    <div className="animate-fade-in-down">
+      <div className="flex w-full justify-between items-center ">
+        <div>
+          <button
+            className={`${styled.button}`}
+            onClick={() => setShowFormPatient(true)}
+          >
+            <div>เพิ่ม</div>
+            <div>
+              <BiUserPlus size={30} />
+            </div>
+          </button>
+        </div>
 
-      <div>
-        <form action="" onChange={(e) => onChangeDataForm(e)}>
-          <div className='grid grid-rows-4 grid-flow-col gap-x-16 gap-y-6'>
-            <div className='flex flex-col gap-2'>
-              <div>{"ชื่อ (ภาษาไทย):"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.nameTH} name="nameTH" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"ชื่อ (ภาษาอังกฤษ):"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.nameEN} name="nameEN" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"อายุ:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.age} name="age" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"น้ำหนัก:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.weigh} name="weigh" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"HN:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.HN} name="HN" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"AN:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.AN} name="AN" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"เตียง:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.bed} name="bed" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"ประวัติการแพ้ยา:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.history} name="history" />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <div>{"การวินิฉัย:"}</div>
-              <input type="text" className={`${styled.input}`} value={dataForm.diagnosis} name="diagnosis" />
+        <div className="flex gap-3 items-center">
+          <div className="relative">
+            <button
+              className={`${styled.button} min-w-[120px]`}
+              onClick={() => toggleShowPicker("OPEN_DATE")}
+            >
+              <div>วันที่</div>
+              <div
+                className={`${
+                  onShowDatePicker ? "rotate-180 transition-all" : ""
+                }`}
+              >
+                <MdOutlineKeyboardArrowDown size={30} />
+              </div>
+            </button>
+            <div
+              className={`absolute right-0 max-h-0 overflow-hidden transition-all p-6 w-[350px] ${
+                onShowDatePicker ? "max-h-[500px]" : "p-0"
+              }`}
+            >
+              <Datepicker />
             </div>
           </div>
-        </form>
-      </div>
-      <div className='mt-10 w-full flex justify-center'>
-        <button className={`${styled.button}`} onClick={() => console.log("saved")}>
-          <div>เพิ่ม</div>
+          <div className="relative ">
+            <button
+              className={`${styled.button} min-w-[120px]`}
+              onClick={() => toggleShowPicker("OPEN_TIME")}
+            >
+              <div>เลือกเวลา</div>
+              <div
+                className={`${
+                  onShowTimePicker ? "rotate-180 transition-all" : ""
+                }`}
+              >
+                <MdOutlineKeyboardArrowDown size={30} />
+              </div>
+            </button>
+            <div
+              className={`absolute -right-16 max-h-0 overflow-hidden transition-all p-6 w-[350px] ${
+                onShowTimePicker ? "max-h-[500px]" : "p-0"
+              }`}
+            >
+              <TimePicker onSave={() => toggleShowPicker("OPEN_TIME")} />
+            </div>
+          </div>
           <div>
-            <BiUserPlus size={30} />
+            <AiFillPrinter size={40} />
           </div>
-        </button>
+        </div>
       </div>
-    </div>
-  )
-}
 
-export default AddPatientForm
+      <table className="border-collapse border border-purple w-full my-8">
+        <thead>
+          <tr>
+            <th className={`${styled.th}`}>ชื้อคนไข้</th>
+            <th className={`${styled.th}`}>วันที่</th>
+            <th className={`${styled.th}`}>HN</th>
+            <th className={`${styled.th}`}>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {patients.map((patient, key) => (
+            <React.Fragment key={key}>
+              <tr>
+                <td className={`${styled.td}`}>
+                  <div className="flex items-center justify-between">
+                    <div className="w-[200px]">{patient.nameTH} <br /> {patient.nameEN}</div>
+                    <div className="flex gap-1 flex-col">
+                      <div className={`${styled.card}`}>
+                        <div>
+                          <Image
+                            src={"/img/icons/bed.svg"}
+                            alt=""
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                        <div>Bed Number</div>
+                      </div>
+                      <div className={`${styled.card}`}>
+                        <div>
+                          <GiHealthNormal size={15} />
+                        </div>
+                        <div>Ward Number</div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td className={`${styled.td}`}>{patient.humanDate} <br /> {patient.humanTime}</td>
+                <td className={`${styled.td}`}>{patient.hn}</td>
+                <td className={`${styled.td} `}>
+                  <div
+                    className={`flex items-center justify-center cursor-pointer`}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <Image
+                      src={"/img/icons/doc.svg"}
+                      alt=""
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                </td>
+              </tr>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+
+      {/* modal zone */}
+      <ModalPatientDetail
+        handleClose={() => setShowModal(false)}
+        open={showModal}
+      />
+    </div>
+  );
+};
+
+export default Table;
