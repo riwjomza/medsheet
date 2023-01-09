@@ -4,7 +4,9 @@ import { RiArrowGoBackLine } from "react-icons/ri";
 import { db } from "../../../firebase";
 import {
   collection,
-  addDoc 
+  addDoc,
+  getDocs,
+  doc
 } from "@firebase/firestore";
 
 type Props = {
@@ -26,7 +28,12 @@ function AddPatientForm({ setShowFormPatient }: Props) {
       seconds: 0,
       nanoseconds: 0,
     }
-  });
+  }
+  
+    
+  );
+  const [fireData, setFireData] = useState([]);
+
   const styled = {
     input: `
     border rounded-md h-8 drop-shadow-sm p-1
@@ -48,10 +55,15 @@ function AddPatientForm({ setShowFormPatient }: Props) {
       });
     }
   };
+  
+  
+  
   const onSubmitDataForm = async () => {
     console.log(dataForm);
     dataForm.date.seconds = Date.now() / 1000 | 0
     const res = await addDoc(collection(db,'patients'), dataForm)
+    alert('Data Sent');
+    
   };
   return (
     <div className="animate-fade-in-down">
@@ -153,6 +165,7 @@ function AddPatientForm({ setShowFormPatient }: Props) {
         </form>
         <div className="mt-10 w-full flex justify-center">
           <button className={`${styled.button}`} onClick={onSubmitDataForm}>
+            
             <div>เพิ่ม</div>
             <div>
               <BiUserPlus size={30} />
