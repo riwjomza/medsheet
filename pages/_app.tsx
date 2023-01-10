@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/dropdown.css'
 import type { AppProps } from 'next/app'
 import Layout from '../components/layouts'
 import {AuthProvider} from '../context/AuthContext'
