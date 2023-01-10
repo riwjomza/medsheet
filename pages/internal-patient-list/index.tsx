@@ -18,9 +18,11 @@ const InternalPatientListPage = (props: Props) => {
             <Table setShowFormPatient ={setShowFormPatient}/>
           </div>
         </>
-      ) : (
+      ) 
+    : (
         <AddPatientForm setShowFormPatient ={setShowFormPatient}/>
-      )}
+      )
+      }
     </div>
   )
 }
