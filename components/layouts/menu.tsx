@@ -53,7 +53,7 @@ const Menu = (props: Props) => {
                 <DropdownMenu.Item className="item">
                   In-patient
                 </DropdownMenu.Item>
-                <DropdownMenu.Item
+                <DropdownMenu.Item className="item"
                    onClick={userlogout}
                 >
                   Logout

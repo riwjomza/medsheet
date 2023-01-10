@@ -4,9 +4,7 @@ import { RiArrowGoBackLine } from "react-icons/ri";
 import { db } from "../../../firebase";
 import {
   collection,
-  addDoc,
-  getDocs,
-  doc
+  addDoc 
 } from "@firebase/firestore";
 
 type Props = {
@@ -24,16 +22,12 @@ function AddPatientForm({ setShowFormPatient }: Props) {
     bed: "",
     history: "",
     diagnosis: "",
+    ward: "",
     date: {
       seconds: 0,
       nanoseconds: 0,
     }
-  }
-  
-    
-  );
-  const [fireData, setFireData] = useState([]);
-
+  });
   const styled = {
     input: `
     border rounded-md h-8 drop-shadow-sm p-1
@@ -52,18 +46,15 @@ function AddPatientForm({ setShowFormPatient }: Props) {
       setDataForm({
         ...dataForm,
         [e.target.name]: e.target.value,
+        
       });
     }
   };
-  
-  
-  
   const onSubmitDataForm = async () => {
     console.log(dataForm);
     dataForm.date.seconds = Date.now() / 1000 | 0
     const res = await addDoc(collection(db,'patients'), dataForm)
-    alert('Data Sent');
-    
+    alert("Data Sent!")
   };
   return (
     <div className="animate-fade-in-down">
@@ -161,11 +152,19 @@ function AddPatientForm({ setShowFormPatient }: Props) {
                 name="diagnosis"
               />
             </div>
+            <div className="flex flex-col gap-2">
+              <div>{"Ward:"}</div>
+              <input
+                type="text"
+                className={`${styled.input}`}
+                value={dataForm.ward}
+                name="ward"
+              />
+            </div>
           </div>
         </form>
         <div className="mt-10 w-full flex justify-center">
           <button className={`${styled.button}`} onClick={onSubmitDataForm}>
-            
             <div>เพิ่ม</div>
             <div>
               <BiUserPlus size={30} />

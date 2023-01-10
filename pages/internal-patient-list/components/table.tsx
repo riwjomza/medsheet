@@ -31,12 +31,16 @@ const Table = ({ setShowFormPatient }: Props) => {
   const [onShowDatePicker, setOnShowDatePicker] = useState(false);
   const [onShowTimePicker, setOnShowTimePicker] = useState(false);
 
+  const [selectedTime, setSelectedTime] = useState("");
+
   // For db
   const patientsCollection = collection(db, "patients");
 
   // const [patients, setPatients] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-  const [patients, setPatients] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  
+  const [patients, setPatients] = useState<DocumentData[]>([]);
+  const [showPatients, setshowPatient] = useState<DocumentData[]>([])
 
   const getPatients = async () => {
     // construct a query to get up to 10 undone todos
@@ -51,19 +55,20 @@ const Table = ({ setShowFormPatient }: Props) => {
     });
     // set it to state
     setPatients(result);
+    setshowPatient(result)
   };
 
   useEffect(() => {
     // get the todos
     getPatients();
     // reset loading
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
   }, []);
 
   patients.forEach((patient) => {
-    console.log(patient);
+    // console.log(patient);
     const date = new Date(patient.date.seconds).toISOString().slice(0, 10);
     const time = new Date(patient.date.seconds).toISOString().slice(11, 19);
 
@@ -98,6 +103,20 @@ const Table = ({ setShowFormPatient }: Props) => {
       text-xs
     `,
   };
+  const setTimeFilter = (value: string) =>{
+    setSelectedTime(value)
+    const time = value.split(':')
+    console.log(time);
+    const result: DocumentData[] = [];
+    patients.forEach((patient) => {
+      const patientTime = patient.humanTime.split(':')
+      if(parseInt(patientTime[0]) <= parseInt(time[0]) && parseInt(patientTime[1]) <= parseInt(time[1])){
+        result.push(patient)
+      }
+    })
+    setshowPatient(result)
+    
+  }
 
   const toggleShowPicker = (type: string) => {
     switch (type) {
@@ -171,7 +190,10 @@ const Table = ({ setShowFormPatient }: Props) => {
                 onShowTimePicker ? "max-h-[500px]" : "p-0"
               }`}
             >
-              <TimePicker onSave={() => toggleShowPicker("OPEN_TIME")} />
+              <TimePicker
+                getTime={(value: string) => setTimeFilter(value)}
+                onSave={() => toggleShowPicker("OPEN_TIME")}
+              />
             </div>
           </div>
           <div>
@@ -190,12 +212,14 @@ const Table = ({ setShowFormPatient }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {patients.map((patient, key) => (
+          {showPatients.map((patient, key) => (
             <React.Fragment key={key}>
               <tr>
                 <td className={`${styled.td}`}>
                   <div className="flex items-center justify-between">
-                    <div className="w-[200px]">{patient.nameTH} <br /> {patient.nameEN}</div>
+                    <div className="w-[200px]">
+                      {patient.nameTH} <br /> {patient.nameEN}
+                    </div>
                     <div className="flex gap-1 flex-col">
                       <div className={`${styled.card}`}>
                         <div>
@@ -206,19 +230,21 @@ const Table = ({ setShowFormPatient }: Props) => {
                             height={20}
                           />
                         </div>
-                        <div>Bed Number</div>
+                        <div>Bed Number: {patient.bed}</div>
                       </div>
                       <div className={`${styled.card}`}>
                         <div>
                           <GiHealthNormal size={15} />
                         </div>
-                        <div>Ward Number</div>
+                        <div>Ward Number: {patient.ward}</div>
                       </div>
                     </div>
                   </div>
                 </td>
-                <td className={`${styled.td}`}>{patient.humanDate} <br /> {patient.humanTime}</td>
-                <td className={`${styled.td}`}>{patient.hn}</td>
+                <td className={`${styled.td}`}>
+                  {patient.humanDate} <br /> {patient.humanTime}
+                </td>
+                <td className={`${styled.td}`}>{patient.HN}</td>
                 <td className={`${styled.td} `}>
                   <div
                     className={`flex items-center justify-center cursor-pointer`}
@@ -239,9 +265,7 @@ const Table = ({ setShowFormPatient }: Props) => {
       </table>
 
       {/* modal zone */}
-      <ModalPatientDetail
-        handleClose={() => setShowModal(false)}
-        open={showModal}
+      <ModalPatientDetail handleClose={() => setShowModal(false)} open={showModal}
       />
     </div>
   );
