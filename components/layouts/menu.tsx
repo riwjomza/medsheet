@@ -12,6 +12,7 @@ type Props = {};
 const Menu = (props: Props) => {
   const { logout } = useAuth();
   const router = useRouter();
+  const PatientP = useRouter();
   const userlogout = async () => {
     try {
       await logout();
@@ -19,6 +20,15 @@ const Menu = (props: Props) => {
     } catch (e) {
       console.log(e);
     }
+  };
+  const patientPage =  async() => {
+    try {
+      await logout();
+      router.push("/internal-patient-list");
+    } catch (e) {
+      console.log(e);
+    }
+       
   };
 
   return (
@@ -50,7 +60,8 @@ const Menu = (props: Props) => {
               </DropdownMenu.Trigger>
 
               <DropdownMenu.Content className="content">
-                <DropdownMenu.Item className="item">
+                <DropdownMenu.Item className="item" 
+                onClick={patientPage}>
                   In-patient
                 </DropdownMenu.Item>
                 <DropdownMenu.Item className="item"

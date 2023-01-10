@@ -90,12 +90,12 @@ const LoginForm = (props: Props) => {
           </button>
         </div>
         <div>
-          <h2
+          {/* <h2
             className="duration-300 hasdover:scale-110 cursor-pointer"
             onClick={() => setIslogginIn(!isLoggingIn)}
           >
             {!isLoggingIn ? "LOGIN" : "Register"}
-          </h2>
+          </h2> */}
         </div>
       </form>
     </div>
