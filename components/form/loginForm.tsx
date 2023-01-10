@@ -43,6 +43,7 @@ const LoginForm = (props: Props) => {
       router.push("/internal-patient-list");
     } catch (e) {
       console.log(e);
+      alert('Wrong Username or Password ')
     }
   }
   return (
