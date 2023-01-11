@@ -1,10 +1,20 @@
 import Image from 'next/image'
+import Table from './internal-patient-list/components/table'
+import InternalTable from '../components/tables/internalListTable'
+import GoBackButton from '../components/buttons/goBackButton'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <Image src={'/img/logo.png'} alt="" width={100} height={100} />
-      <div className='text-[#D2ADE4]'>This site developing</div>
-    </div>
+    <>
+      <div className='text-3xl font-bold mb-10 animate-fade-in-down'>
+        <div className='text-purple'>รายชื่อผู้ป่วยใน</div>
+        <div>แผนกศัลยกรรมหญิง</div>
+      </div>
+      <div className='animate-fade-in-down'>
+        <InternalTable setShowFormPatient={() => ""} />
+      </div>
+    </>
   )
 }

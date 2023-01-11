@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai';
-import Backdrop from './backDrop'
+import Backdrop from '../../../components/modal/backDrop'
 
 type Props = {
   handleClose: any;
@@ -28,7 +28,7 @@ const dropIn = {
   },
 };
 
-const ModalPatientDetail = ({ handleClose, open }: Props) => {
+const ModalPatientCreate = ({ handleClose, open }: Props) => {
   return (
     <AnimatePresence>
       {open ? (
@@ -73,8 +73,8 @@ const ModalPatientDetail = ({ handleClose, open }: Props) => {
                   <textarea name="" id="" rows={3} className="border rounded-md px-2 py-1"></textarea>
                 </div>
 
-                <div className='bg-purple text-white font-bold p-2 rounded-md'>
-                  <button>บันทึก</button>
+                <div >
+                  <button className='bg-purple text-white font-bold p-2 rounded-md' onClick={(e) => { e.preventDefault(); handleClose() }}>บันทึก</button>
                 </div>
               </form>
             </div>
@@ -85,4 +85,4 @@ const ModalPatientDetail = ({ handleClose, open }: Props) => {
   )
 }
 
-export default ModalPatientDetail
+export default ModalPatientCreate

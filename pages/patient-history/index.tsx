@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PatientHistoryTable from './components/patientHistoryTable'
 import ModalAddDrug from '../../components/modal/modalAddDrug'
+import GoBackButton from '../../components/buttons/goBackButton'
+import PintTable from './components/pintTable'
 
 type Props = {}
 
@@ -17,15 +19,22 @@ const dataUser = {
 }
 const PatientHistoryPage = (props: Props) => {
   const [showModalAddDrug, setShowModalAddDrug] = useState(false)
+  const [onPint, setOnPint] = useState(false)
+
+  useEffect(() => {
+
+  }, [onPint])
+
   return (
     <div className='animate-fade-in-down'>
+      <GoBackButton onBack={() => setOnPint(false)} onShow={onPint} />
       <div className='text-3xl font-bold mb-10'>
         <div className='text-purple'>ประวัติผู้ป่วย</div>
       </div>
 
       <div className='py-10 border-y-2 border-gray relative'>
         <div className='px-3  absolute -top-4 right-0 bg-white'>
-          <button className='bg-purple text-white px-3 py-1 rounded-md'>แก้ไขประวัติผู้ป่วย</button>
+          <button className={`bg-purple text-white px-3 py-1 rounded-md ${onPint ? "hidden" : "block"}`}>แก้ไขประวัติผู้ป่วย</button>
         </div>
         <div className='grid grid-cols-2 lg:grid-cols-3 gap-6 font-bold'>
           <div className='flex gap-3 col-span-3'>
@@ -69,7 +78,11 @@ const PatientHistoryPage = (props: Props) => {
 
       {/* table */}
       <div className='mt-10'>
-        <PatientHistoryTable setShowModalAddDrug ={setShowModalAddDrug}/>
+        {!onPint ? (
+          <PatientHistoryTable setShowModalAddDrug={setShowModalAddDrug} setOnPint={setOnPint} />
+        ) : (
+          <PintTable setShowModalAddDrug={setShowModalAddDrug} setOnPint={setOnPint} />
+        )}
       </div>
 
       {/* modal zone */}

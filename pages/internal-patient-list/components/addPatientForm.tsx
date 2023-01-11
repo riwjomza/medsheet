@@ -42,9 +42,6 @@ function AddPatientForm({ setShowFormPatient }: Props) {
   }
   return (
     <div className='animate-fade-in-down'>
-      <div className='absolute top-10 left-6 z-30 text-white cursor-pointer' onClick={() => setShowFormPatient(false)}>
-        <RiArrowGoBackLine size={40} />
-      </div>
       <div className='text-3xl font-bold mb-10'>
         <div className='text-purple'>รายชื่อผู้ป่วยใน</div>
       </div>

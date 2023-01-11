@@ -37,7 +37,13 @@ module.exports = {
       },
       "white": {
         DEFAULT: "#ffff"
-      }
+      },
+      "red": {
+        DEFAULT: "#ffe5e5"
+      },
+      "green": {
+        DEFAULT: "#e8ffec"
+      },
     }
   },
   plugins: [],
