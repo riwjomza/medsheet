@@ -7,16 +7,14 @@ import { mockDataPatientList } from '../../../contrasts/patientHistoryList'
 import Image from 'next/image'
 import Datepicker from '../../../components/input/datePicker'
 import TimePicker from '../../../components/input/timePicker'
-
+import { GrDocumentUpdate } from 'react-icons/gr'
 
 type Props = {
- // setShowModalAddDrug:any
   setShowModalAddDrug: any;
   setOnPrint: any;
 }
 
-//const PatientHistoryTable = ({setShowModalAddDrug}: Props) => {
-const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
+const PrintTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
   const [showModal, setShowModal] = useState(false)
   const [onShowDatePicker, setOnShowDatePicker] = useState(false)
   const [onShowTimePicker, setOnShowTimePicker] = useState(false)
@@ -48,6 +46,7 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
       text-xs
     `
   }
+
   const toggleShowPicker = (type: string) => {
     switch (type) {
       case "OPEN_TIME":
@@ -58,43 +57,21 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
         setOnShowTimePicker(false)
         setOnShowDatePicker(!onShowDatePicker)
         break;
+
       default:
         break;
     }
   }
   return (
     <div className='animate-fade-in-down'>
-    <div className='flex gap-3 items-center w-full justify-end '>
-      <div className='relative'>
-        <button className={`${styled.button} min-w-[120px]`} onClick={() => toggleShowPicker("OPEN_DATE")}>
-          <div>วันที่</div>
-          <div className={`${onShowDatePicker ? "rotate-180 transition-all" : ""}`}>
-            <MdOutlineKeyboardArrowDown size={30} />
+      <div className='flex gap-3 items-center w-full justify-end '>
+        <button className={`${styled.button}`} onClick={() => console.log("print")}>
+          <div>พิมพ์</div>
+          <div className=''>
+            <Image src={'/img/printDoc.png'} alt="" width={20} height={20} />
           </div>
         </button>
-        <div className={`absolute right-0 max-h-0 overflow-hidden transition-all p-6 w-[350px] ${onShowDatePicker ? "max-h-[500px]" : "p-0"}`}>
-          <Datepicker />
-        </div>
       </div>
-      <div className='relative '>
-        <button className={`${styled.button} min-w-[120px]`} onClick={() => toggleShowPicker("OPEN_TIME")}>
-          <div>เลือกเวลา</div>
-          <div className={`${onShowTimePicker ? "rotate-180 transition-all" : ""}`}>
-            <MdOutlineKeyboardArrowDown size={30} />
-          </div>
-        </button>
-        <div className={`absolute -right-16 max-h-0 overflow-hidden transition-all p-6 w-[350px] ${onShowTimePicker ? "max-h-[500px]" : "p-0"}`}>
-          <TimePicker onSave={() => toggleShowPicker("OPEN_TIME")} />
-        </div>
-      </div>
-      <button className={`${styled.button} min-w-[120px]`} onClick={() => setShowModalAddDrug(true)}>
-        <div>เพิ่มรายการ</div>
-      </button>
-      <div className='cursor-pointer' onClick={() => setOnPrint(true)}>
-        <AiFillPrinter size={40} />
-      </div>
-    </div>
-
 
 
       <div className='overflow-x-scroll'>
@@ -102,52 +79,58 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
           <thead>
             <tr>
               <td rowSpan={2} className={`${styled.th} text-center`}>ชื่อยา, วิธีใช้</td>
-               <td rowSpan={2} className={`${styled.th} text-center`}>
+              {/* <td rowSpan={2} className={`${styled.th} text-center`}>
                 <div>
                   Route
                 </div>
-              </td>
+              </td> */}
               <td rowSpan={2} className={`${styled.th} text-center`}>ชั่วโมงให้ยา</td>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <th colSpan={1} scope="colgroup" className={`${styled.th}`}>
+              <th colSpan={2} scope="colgroup" className={`${styled.th}`}>
                 <div>วันที่</div>
                 <div className='text-black text-sm font-thin'>12/12/2565</div>
               </th>
-              <td rowSpan={2} className={`${styled.th} text-center`}>
-                ผู้จ่ายยา
-              </td>
+
             </tr>
             <tr>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
               <th scope="col" className={`${styled.th}`}>เวลา</th>
+              <th scope="col" className={`${styled.th}`}>ผู้ให้ยา</th>
+
             </tr>
           </thead>
           <tbody>
@@ -159,26 +142,26 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                       <div className='w-[200px] text-left'>
                         {item.name}
                       </div>
-                      <div className='text-right w-full flex justify-end'>
-                        <div className={`${styled.card}`}>
-                          <div>
-                            {/* <Image src={"/img/icons/bed.svg"} alt="" width={20} height={20} /> */}
-                            <FaPenAlt size={15} />
-                          </div>
-                          <div>
-                            Edit
-                          </div>
-                        </div>
-                      </div>
+
                     </div>
                   </td>
-                  <td className={`${styled.td}`}>{item.route}</td>
                   <td className={`${styled.td}`}>{item.hr}</td>
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        {item.time}
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
+                      <div>
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
+                      </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -187,8 +170,12 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -197,8 +184,12 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -207,8 +198,12 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -217,8 +212,12 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -227,8 +226,12 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
+                    </div>
+                  </td>
+                  <td className={`${styled.td}`}>
+                    <div className='flex gap-1 justify-center'>
                       <div>
                         {item.time}
                       </div>
@@ -237,18 +240,11 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
                   <td className={`${styled.td}`}>
                     <div className='flex gap-1 justify-center'>
                       <div>
-                        <Image src={"/img/icons/clock.svg"} alt="" width={20} height={20} />
-                      </div>
-                      <div>
-                        {item.time}
+                        <Image src={"/img/signer.png"} alt="" width={50} height={50} />
                       </div>
                     </div>
                   </td>
-                  <td className={`${styled.td} `}>
-                    <div className={`flex items-center justify-center cursor-pointer`} onClick={() => ""}>
-                      <Image src={"/img/icons/userIcon.svg"} alt="" width={20} height={20} />
-                    </div>
-                  </td>
+
                 </tr>
               </React.Fragment>
             ))}
@@ -258,4 +254,5 @@ const PatientHistoryTable = ({ setShowModalAddDrug, setOnPrint }: Props) => {
     </div>
   )
 }
-export default PatientHistoryTable
+
+export default PrintTable
