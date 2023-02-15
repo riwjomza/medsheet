@@ -4,11 +4,17 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import Backdrop from './backDrop'
 import Select from 'react-select'
 import DefaultSelector from '../selector/defaultSelector';
+import JSXStyle from 'styled-jsx/style';
+import {FC} from "react";
+import LiveSearch from '../../pages/patient-history/components/LiveSearch'
+import drugName from "../modal/drugName"
 
 type Props = {
   handleClose: any;
   open: boolean;
+  
 }
+
 const dropIn = {
   hidden: {
     y: "-100vh",
@@ -51,6 +57,20 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
     { value: 'q6hr', label: 'q6hr' },
     { value: 'q4hr', label: 'q4hr' },
   ]
+
+  const profiles = [
+    {id: "1", name: "Alrgy"},
+    {id: "2", name: "Aida Bugg"},
+    {id: "3", name: "Grace"},
+    {id: "4", name: "Hannah"},
+    {id: "5", name: "John Doe"},
+    {id: "6", name: "Anne Yeak"},
+    {id: "7", name: "Audie youse"},
+    {id: "8", name: "gg"},
+    {id: "9", name: "Noob"},
+    {id: "10", name: "Zero"},
+  ]
+
   return (
     <AnimatePresence>
       {open ? (
@@ -74,9 +94,20 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
               <form className='flex flex-col gap-6 items-center'>
                 <div className='flex gap-3 items-center'>
                   <div className='min-w-[130px] text-right'>ชื่อสามัญยา</div>
-                  <input type="text" className='border rounded-md px-2 py-1' />
+                  <div className='relative'>
+                  {/* <input type="text" className='border rounded-md px-2 py-1' /> */}
+                     {/*Search Result Container*/}
+                  <div className='absolute mt-1 w-full p-2 bg-white shadow-lg
+                  rounded-bl rounded-br max-h-36 overflow-y-auto'>
+                    </div>
+                    <LiveSearch results={profiles} renderItem={(item)=> <p>{item.name}</ p>}/>
+                  </div>
                 </div>
-                <div className='flex gap-3 items-center '>
+         
+
+
+
+                {/* <div className='flex gap-3 items-center '>
                   <div className='min-w-[130px] text-right'>ขนาดยา</div>
                   <div className='relative'>
                     <input type="text" className='border rounded-md px-2 py-1' />
@@ -96,7 +127,7 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
                       <DefaultSelector options={optionsCount} />
                     </div>
                   </div>
-                </div>
+                </div>  */}
 
                 <div className='bg-purple text-white font-bold p-2 rounded-md min-w-[80px] text-center'>
                   <button>เพิ่ม</button>

@@ -7,6 +7,7 @@ import { mockDataPatientList } from '../../../contrasts/patientHistoryList'
 import Image from 'next/image'
 import Datepicker from '../../../components/input/datePicker'
 import TimePicker from '../../../components/input/timePicker'
+import LiveSearch from './LiveSearch'
 
 
 type Props = {
