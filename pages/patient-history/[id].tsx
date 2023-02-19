@@ -8,13 +8,28 @@ import { mockDataPatientList } from "../../contrasts/patientHistoryList";
 import { mockDataInternalUserList } from "../../contrasts/internalUserList";
 import {DocumentData} from 'firebase/firestore'
 import { result as patients} from '../../contrasts/patients'
+import { db } from "../../firebase";
+import EditPatientForm from"../patient-history/components/editPatientHis"
+import AddPatientForm from '../internal-patient-list/components/addPatientForm'
 
-type Props = {};
-const PatientHistoryDetailPage = (props: Props) => {
+import {
+  collection,
+  QueryDocumentSnapshot,
+  query,
+  where,
+  limit,
+  getDocs,
+} from "@firebase/firestore";
+
+type Props = {
+  setShowFormPatient : any;
+};
+const PatientHistoryDetailPage = (setShowFormPatient: Props) => {
   const [showModalAddDrug, setShowModalAddDrug] = useState(false);
   const [onPrint, setOnPrint] = useState(false);
   const [dataUser, setDataUser] = useState<DocumentData>({});
   const { query, push} = useRouter();
+  
 
   const getData =  async (HN: any) => {
     // console.log(typeof(HN))
@@ -25,6 +40,9 @@ const PatientHistoryDetailPage = (props: Props) => {
     // setshowPatient(result);
     console.log(dataUser)
   };
+  const updateFields = () => {
+    
+  }
   
   const onBack = () => {
     if (onPrint) {
@@ -52,7 +70,10 @@ const PatientHistoryDetailPage = (props: Props) => {
                 className={`bg-purple text-white px-3 py-1 rounded-md ${
                   onPrint ? "hidden" : "block"
                 }`}
-              >
+                onClick={() => (true)}
+
+              > 
+                
                 แก้ไขประวัติผู้ป่วย
               </button>
             </div>
@@ -71,7 +92,7 @@ const PatientHistoryDetailPage = (props: Props) => {
               </div>
               <div className="flex gap-3">
                 <div className="min-w-[30px]">น้ำหนัก</div>
-                <div>{dataUser?.weight}</div>
+                <div>{dataUser?.weigh}</div>
               </div>
               <div className="flex gap-3">
                 <div className="min-w-[30px]">HN</div>

@@ -49,7 +49,7 @@ const Table = ({ setShowFormPatient }: Props) => {
   const getPatients = async () => {
     // construct a query to get up to 10 undone todos
     const todosQuery = query(patientsCollection);
-    // get the todos
+    // get the tod   os
     const querySnapshot = await getDocs(todosQuery);
 
     // map through todos adding them to an array

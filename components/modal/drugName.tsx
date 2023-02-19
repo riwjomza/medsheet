@@ -446,30 +446,30 @@ const profiles =[
 
 ];
 
-const drugName: FC<Props> = (props): JSX.Element => {
-    const [results, setResults] = useState<{ id: string; name: string }[]>();
-  const [selectedProfile, setSelectedProfile] = useState<{
-    id: string;
-    name: string;
-  }>();
+// const drugName: FC<Props> = (props): JSX.Element => {
+//     const [results, setResults] = useState<{ id: string; name: string }[]>();
+//   const [selectedProfile, setSelectedProfile] = useState<{
+//     id: string;
+//     name: string;
+//   }>();
 
-  type changeHandler = React.ChangeEventHandler<HTMLInputElement>;
-  const handleChange: changeHandler = (e) => {
-    const { target } = e;
-    if (!target.value.trim()) return setResults([]);
+//   type changeHandler = React.ChangeEventHandler<HTMLInputElement>;
+//   const handleChange: changeHandler = (e) => {
+//     const { target } = e;
+//     if (!target.value.trim()) return setResults([]);
 
-    const filteredValue = profiles.filter((profile) =>
-      profile.name.toLowerCase().startsWith(target.value)
-    );
-    setResults(filteredValue);
-  };
-    return <LiveSearch 
-    results={results}      
-    value={selectedProfile?.name}
-    renderItem={(item)=> <p>{item.name}</ p>}
-    onChange={handleChange}
-    onSelect={(item) => setSelectedProfile(item)}
-    />;  
-};
+//     const filteredValue = profiles.filter((profile) =>
+//       profile.name.toLowerCase().startsWith(target.value)
+//     );
+//     setResults(filteredValue);
+//   };
+//     return <LiveSearch 
+//     results={results}      
+//     value={selectedProfile?.name}
+//     renderItem={(item)=> <p>{item.name}</ p>}
+//     onChange={handleChange}
+//     onSelect={(item) => setSelectedProfile(item)}
+//     />;  
+// };
 
-export default drugName;
+export default profiles;

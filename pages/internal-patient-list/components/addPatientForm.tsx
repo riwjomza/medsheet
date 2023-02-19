@@ -152,7 +152,7 @@ function AddPatientForm({ setShowFormPatient }: Props) {
                 name="diagnosis"
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className= "flex flex-col gap-2">
               <div>{"Ward:"}</div>
               <input
                 type="text"
