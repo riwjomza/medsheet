@@ -10,6 +10,7 @@ import LiveSearch from "../../pages/patient-history/components/LiveSearch";
 import profiles from "../modal/drugName";
 import { profile } from "console";
 import { useState } from "react";
+import {db} from "../../firebase"
 
 type Props = {
   handleClose: any;
@@ -43,6 +44,8 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
     id: string;
     name: string;
   }>();
+
+  
 
   type changeHandler = React.ChangeEventHandler<HTMLInputElement>;
   const handleChange: changeHandler = (e) => {
@@ -110,15 +113,7 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
               <form className="flex flex-col gap-6 items-center">
                 <div className="flex gap-3 items-center">
                   <div className="min-w-[130px] text-right">ชื่อสามัญยา</div>
-                  <div className="relative">
-                    {/* <input type="text" className='border rounded-md px-2 py-1' /> */}
-                    {/*Search Result Container*/}
-                    <div
-                      className="absolute mt-1 w-full p-2 bg-white shadow-lg
-                  rounded-bl rounded-br max-h-36 overflow-y-auto"
-                    ></div>
-                    {/* <LiveSearch results={drugName} renderItem={(item)=> <p>{item.name}</ p>}/> */}
-                    {/* {<drugName/>} */}
+                  <div className=" w-[238px]">
                     {
                       <LiveSearch
                         results={results}
@@ -131,30 +126,39 @@ const ModalAddDrug = ({ handleClose, open }: Props) => {
                   </div>
                 </div>
 
-                {/* <div className='flex gap-3 items-center '>
-                  <div className='min-w-[130px] text-right'>ขนาดยา</div>
-                  <div className='relative'>
-                    <input type="text" className='border rounded-md px-2 py-1' />
-                    <div className='absolute top-[6px] right-2' >mg/g</div>
+                <div className="flex gap-3 items-center ">
+                  <div className="min-w-[130px] text-right">ขนาดยา</div>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="border rounded-md px-2 py-1"
+                      // value={dataForm.drugSize}
+                      name="drugSize"
+                    />
+                    <div className="absolute top-[6px] right-2">mg/g</div>
                   </div>
                 </div>
-                <div className='flex gap-3 items-center justify-start '>
-                  <div className='min-w-[130px] text-right '>Route</div>
-                  <div className=' w-[238px]'>
-                    <DefaultSelector options={optionsRoute} />
+                <div className="flex gap-3 items-center justify-start ">
+                  <div className="min-w-[130px] text-right ">Route</div>
+                  <div className=" w-[238px]">
+                    <DefaultSelector options={optionsRoute} 
+                    />
                   </div>
                 </div>
-                <div className='flex gap-3 items-center justify-start '>
-                  <div className='min-w-[130px] text-right '>ความถี่ในการให้ยา</div>
-                  <div className=''>
-                    <div className=' w-[238px]'>
+                <div className="flex gap-3 items-center justify-start ">
+                  <div className="min-w-[130px] text-right ">
+                    ความถี่ในการให้ยา
+                  </div>
+                  <div className="flex gap-3 items-center justify-start ">
+                    <div className=" w-[238px]">
                       <DefaultSelector options={optionsCount} />
                     </div>
                   </div>
-                </div>  */}
+                </div>
 
-                <div className="bg-purple text-white font-bold p-2 rounded-md min-w-[80px] text-center">
-                  <button>เพิ่ม</button>
+                <div className="bg-purple text-white font-bold p-2 rounded-md min-w-[80px] text-center"> 
+                  <button  onClick={() => console.log("saved")}
+                  >เพิ่ม</button>
                 </div>
               </form>
             </div>

@@ -10,7 +10,7 @@ import {DocumentData} from 'firebase/firestore'
 import { result as patients} from '../../contrasts/patients'
 import { db } from "../../firebase";
 import EditPatientForm from"../patient-history/components/editPatientHis"
-import AddPatientForm from '../internal-patient-list/components/addPatientForm'
+// import AddPatientForm from '../internal-patient-list/components/addPatientForm'
 
 import {
   collection,
@@ -19,17 +19,24 @@ import {
   where,
   limit,
   getDocs,
+  setDoc,
+  doc,
+  addDoc,
 } from "@firebase/firestore";
+import profiles from "../../components/modal/drugName";
 
 type Props = {
   setShowFormPatient : any;
 };
-const PatientHistoryDetailPage = (setShowFormPatient: Props) => {
+
+const PatientHistoryDetailPage = ({setShowFormPatient}: Props) => {
   const [showModalAddDrug, setShowModalAddDrug] = useState(false);
   const [onPrint, setOnPrint] = useState(false);
   const [dataUser, setDataUser] = useState<DocumentData>({});
+  const [showEditFormPatient, setEditFormPatient] = useState(false)
   const { query, push} = useRouter();
   
+ 
 
   const getData =  async (HN: any) => {
     // console.log(typeof(HN))
@@ -70,12 +77,13 @@ const PatientHistoryDetailPage = (setShowFormPatient: Props) => {
                 className={`bg-purple text-white px-3 py-1 rounded-md ${
                   onPrint ? "hidden" : "block"
                 }`}
-                onClick={() => (true)}
+                onClick={() => setEditFormPatient(true)}
 
               > 
                 
                 แก้ไขประวัติผู้ป่วย
               </button>
+            
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 font-bold">
               <div className="flex gap-3 col-span-3">
@@ -118,9 +126,8 @@ const PatientHistoryDetailPage = (setShowFormPatient: Props) => {
           </div>
         </React.Fragment>
       )}
-
-      {/* table */}
-      <div className="mt-10">
+      {!showEditFormPatient ? (<>
+        <div className="mt-10">
         {!onPrint ? (
           <PatientHistoryTable
             setShowModalAddDrug={setShowModalAddDrug}
@@ -139,6 +146,10 @@ const PatientHistoryDetailPage = (setShowFormPatient: Props) => {
         handleClose={() => setShowModalAddDrug(false)}
         open={showModalAddDrug}
       />
+      </>):(
+        <EditPatientForm setEditFormPatient={setEditFormPatient}/>
+      )}
+      {/* table */}
     </div>
   );
 };

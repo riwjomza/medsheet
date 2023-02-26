@@ -40,7 +40,7 @@ const LoginForm = (props: Props) => {
 
     try {
       await login(email, password);
-      router.push("/internal-patient-list");
+      router.push("internal-patient-list");
     } catch (e) {
       console.log(e);
       alert('Wrong Username or Password ')

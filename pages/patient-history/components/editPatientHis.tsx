@@ -12,10 +12,10 @@ import {
 } from "@firebase/firestore";
 
 type Props = {
-  editShowFormPatient: any;
+    setEditFormPatient: any;
 };
 
-function EditPatientForm({ editShowFormPatient }: Props) {
+function EditPatientForm({ setEditFormPatient }: Props) {
   const [dataForm, setDataForm] = useState({
     nameTH: "",
     nameEN: "",
@@ -32,49 +32,6 @@ function EditPatientForm({ editShowFormPatient }: Props) {
       nanoseconds: 0,
     }
   });
-  // For db
-  const patientsCollection = collection(db, "patients");
-
-  // const [patients, setPatients] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  
-  const [patients, setPatients] = useState<DocumentData[]>([]);
-  const [showPatients, setshowPatient] = useState<DocumentData[]>([])
-
-  const getPatients = async () => {
-    // construct a query to get up to 10 undone todos
-    const todosQuery = query(patientsCollection);
-    // get the tod   os
-    const querySnapshot = await getDocs(todosQuery);
-
-    // map through todos adding them to an array
-    const result: DocumentData[] = [];
-    querySnapshot.forEach((snapshot) => {
-      result.push(snapshot.data());
-    });
-    // set it to state
-    setPatients(result);
-    setshowPatient(result)
-  };
-
-  useEffect(() => {
-    // get the todos
-    getPatients();
-    // reset loading
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-  }, []);
-
-  patients.forEach((patient) => {
-    // console.log(patient);
-    const date = new Date(patient.date.seconds).toISOString().slice(0, 10);
-    const time = new Date(patient.date.seconds).toISOString().slice(11, 19);
-
-    patient.humanDate = date;
-    patient.humanTime = time;
-  });
-
   const styled = {
     input: `
     border rounded-md h-8 drop-shadow-sm p-1
@@ -109,7 +66,7 @@ function EditPatientForm({ editShowFormPatient }: Props) {
     <div className="animate-fade-in-down">
       <div
         className="absolute top-10 left-6 z-30 text-white cursor-pointer"
-        onClick={() => editShowFormPatient(false)}
+        onClick={() => setEditFormPatient(false)}
       >
         <RiArrowGoBackLine size={40} />
       </div>
